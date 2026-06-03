@@ -3,6 +3,7 @@ import type { AuthenticatedRequest } from "../middlewares/isAuth.js";
 import { Chat } from "../models/Chat.js";
 import { Messages } from "../models/Messages.js";
 import axios from "axios";
+import { io, getReceiverSocketId } from "../socket/socket.js";
 
 export const createNewChat = TryCatch(
   async (req: AuthenticatedRequest, res) => {
@@ -191,6 +192,10 @@ export const sendMessage = TryCatch(async (req: AuthenticatedRequest, res) => {
   );
 
   //emit to sockets
+  const receiverSocketId = getReceiverSocketId(otherUserId.toString());
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit("newMessage", savedMessage);
+  }
 
   res.status(201).json({
     message: savedMessage,
@@ -266,6 +271,12 @@ export const getMessagesByChat = TryCatch(
       }
 
       //socket work
+      const receiverSocketId = getReceiverSocketId(otherUserId.toString());
+      if (receiverSocketId) {
+        io.to(receiverSocketId).emit("messagesSeen", {
+          chatId: chatId,
+        });
+      }
 
       res.json({
         messages,
