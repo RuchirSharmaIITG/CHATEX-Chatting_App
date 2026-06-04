@@ -37,11 +37,9 @@ const VerifyOtp = () => {
   const searchParams = useSearchParams();
   const email: string = searchParams.get("email") || "";
 
-  // Theme setup
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -143,9 +141,9 @@ const VerifyOtp = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-white dark:bg-[#09090b] transition-colors duration-300 font-sans">
-      {/* Left/Top Branding Panel */}
+
       <div className="md:w-1/2 bg-gradient-to-br from-indigo-50 to-white dark:from-zinc-900 dark:to-[#09090b] border-b md:border-b-0 md:border-r border-gray-100 dark:border-zinc-800 flex flex-col justify-center items-center p-10 relative overflow-hidden">
-        {/* Soft floating background blobs for modern feel */}
+
         <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-indigo-500/10 dark:bg-emerald-500/10 blur-3xl rounded-full mix-blend-multiply dark:mix-blend-screen pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-violet-500/10 dark:bg-teal-500/10 blur-3xl rounded-full mix-blend-multiply dark:mix-blend-screen pointer-events-none" />
 
